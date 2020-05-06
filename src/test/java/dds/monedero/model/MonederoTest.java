@@ -40,7 +40,7 @@ public class MonederoTest {
     cuenta.poner(1500);
     cuenta.poner(456);
     cuenta.poner(1900);
-    Assert.assertEquals(3856, cuenta.getSaldo(),0);
+    Assert.assertEquals(3, cuenta.cantidadDeDepositosDeHoy(),0);
   }
 
   @Test(expected = MaximaCantidadDepositosException.class)
