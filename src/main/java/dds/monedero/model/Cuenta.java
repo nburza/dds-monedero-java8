@@ -39,11 +39,9 @@ public class Cuenta {
     if (getSaldo() - cuanto < 0) {
       throw new SaldoMenorException("No puede sacar mas de " + getSaldo() + " $");
     }
-    double montoExtraidoHoy = getMontoExtraidoA(LocalDate.now());
-    double limite = 1000 - montoExtraidoHoy;
-    if (cuanto > limite) {
+    if (cuanto > limiteRestanteDeExtraccion()) {
       throw new MaximoExtraccionDiarioException("No puede extraer mas de $ " + 1000
-          + " diarios, límite: " + limite);
+          + " diarios, límite: " + limiteRestanteDeExtraccion());
     }
 
     Movimiento extraccion = new Movimiento(LocalDate.now(), cuanto, false);
@@ -68,6 +66,10 @@ public class Cuenta {
 
   public long cantidadDeDepositosDeHoy() {
     return this.movimientos.stream().filter(movimiento -> movimiento.isDeposito() && movimiento.esDeLaFecha(LocalDate.now())).count();
+  }
+
+  public double limiteRestanteDeExtraccion() {
+    return 1000 - getMontoExtraidoA(LocalDate.now());
   }
 
 }
