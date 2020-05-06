@@ -59,7 +59,7 @@ public class MonederoTest {
 
   @Test(expected = MaximoExtraccionDiarioException.class)
   public void ExtraerMasDe1000() {
-    cuenta.setSaldo(5000);
+    cuenta.poner(5000);
     cuenta.sacar(1001);
   }
 
