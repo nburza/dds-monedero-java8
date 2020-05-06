@@ -27,7 +27,7 @@ public class Cuenta {
       throw new MaximaCantidadDepositosException("Ya excedio los " + 3 + " depositos diarios");
     }
 
-    Movimiento deposito = new Movimiento(LocalDate.now(), cuanto, true);
+    Deposito deposito = new Deposito(LocalDate.now(), cuanto);
     this.saldo = deposito.calcularValor(this.saldo);
     this.movimientos.add(deposito);
   }
@@ -44,14 +44,14 @@ public class Cuenta {
           + " diarios, límite: " + limiteRestanteDeExtraccion());
     }
 
-    Movimiento extraccion = new Movimiento(LocalDate.now(), cuanto, false);
+    Extraccion extraccion = new Extraccion(LocalDate.now(), cuanto);
     this.saldo = extraccion.calcularValor(this.saldo);
     this.movimientos.add(extraccion);
   }
 
   public double getMontoExtraidoA(LocalDate fecha) {
     return getMovimientos().stream()
-        .filter(movimiento -> !movimiento.isDeposito() && movimiento.getFecha().equals(fecha))
+        .filter(movimiento -> movimiento.isExtraccion() && movimiento.getFecha().equals(fecha))
         .mapToDouble(Movimiento::getMonto)
         .sum();
   }
